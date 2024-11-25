@@ -267,11 +267,11 @@ public class Bank {
         return String.format("%.2f", number);
     }
 
-    public static void println(String input) {
+    private static void println(String input) {
         System.out.println(input);
     }
 
-    public static void print(String input) {
+    private static void print(String input) {
         System.out.print(input);
     }
 
