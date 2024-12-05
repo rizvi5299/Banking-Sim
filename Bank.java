@@ -3,11 +3,20 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Bank {
+
+    private static Bank instance;
+    private Bank() {} //private constructor for Singleton design pattern
+    public static Bank getInstance() {
+        if (instance == null) {
+            instance = new Bank();
+        }
+        return instance;
+    }
     static Map<String, AccountData> AllUsers = new HashMap<>();
     static Scanner stdin = new Scanner(System.in);
     static final String GREEN = "\u001B[32m", RED = "\u001B[31m", BLUE = "\u001B[34m", RESET = "\u001B[0m";
 
-    public static void MainMenu() {
+    public void MainMenu() {
         try {
             // Pre-populate with some users
             AccountData obj1 = new AccountData("user1", "pass1", 1000);
@@ -160,7 +169,7 @@ public class Bank {
     }
 
     private static void ListAllUsers() {
-        println("\nTotal number of current registered accounts: " + AccountData.TotalUsers);
+        println("\nTotal number of current registered accounts: " + AccountManager.getInstance().getTotalUsers());
         for (Map.Entry<String, AccountData> RegisteredUser : AllUsers.entrySet()) {
             println("Username: " + RegisteredUser.getValue().getUsername());
             println("Balance: $" + format(RegisteredUser.getValue().getBalance()) + "\n");
@@ -255,7 +264,7 @@ public class Bank {
         String confirmation = stdin.nextLine().trim();
         if (confirmation.equalsIgnoreCase("yes")) {
             AllUsers.remove(user);
-            AccountData.TotalUsers--;
+            AccountManager.getInstance().decrementTotalUsers();
             println(RED + "\nYour account has been deleted." + RESET);
         } else {
             println(GREEN + "\nAccount deletion cancelled." + RESET);
