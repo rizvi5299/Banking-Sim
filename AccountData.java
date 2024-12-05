@@ -7,14 +7,13 @@ public class AccountData {
     private String passwordHash;  // Store hashed password instead
     private byte[] salt;          // Salt for the hash
     private double balance;
-    public static int TotalUsers = 0;
 
     public AccountData(String username, String password, double balance) throws Exception {
         this.username = username;
         this.salt = generateSalt();
         this.passwordHash = hashPassword(password, salt);
         this.balance = balance;
-        TotalUsers++;
+        AccountManager.getInstance().incrementTotalUsers();
     }
 
     private byte[] generateSalt() throws Exception {
